@@ -49,12 +49,12 @@ def iter_slide_text(slide):
 
 
 def main(argv: list[str]) -> int:
-    if len(argv) != 3:
-        print("Usage: python extract_outline.py input.pptx output.md", file=sys.stderr)
+    if len(argv) not in (2, 3):
+        print("Usage: python extract_outline.py input.pptx [output.md]", file=sys.stderr)
         return 1
 
     in_path = Path(argv[1])
-    out_path = Path(argv[2])
+    out_path = Path(argv[2]) if len(argv) == 3 else in_path.with_suffix(".md")
 
     if not in_path.is_file():
         print(f"Input file not found: {in_path}", file=sys.stderr)

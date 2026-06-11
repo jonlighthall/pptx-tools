@@ -26,12 +26,13 @@ mkdir -pv "${HOME}/bin"
 
 echo "Linking pptx-tools executables..."
 
-# Make extract_outline.py executable
+# Make scripts executable
 chmod +x "${script_dir}/extract_outline.py"
+chmod +x "${script_dir}/extract_outline.sh"
 
-# Create symlink in ~/bin
+# Create symlink in ~/bin (wrapper handles venv activation)
 link_target="${HOME}/bin/extract_outline"
-source_file="${script_dir}/extract_outline.py"
+source_file="${script_dir}/extract_outline.sh"
 
 if [ -L "$link_target" ]; then
     echo "Removing old symlink: $link_target"
@@ -41,4 +42,4 @@ fi
 ln -sv "$source_file" "$link_target"
 echo "Linked: extract_outline"
 
-echo "Done. You can now use: extract_outline input.pptx output.md"
+echo "Done. You can now use: extract_outline input.pptx [output.md]"
