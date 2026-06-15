@@ -9,7 +9,7 @@
 #   extract_outline input.pptx [output.md]
 # ------------------------------------------------------------------------------
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 VENV="${HOME}/venvs/pptx-tools"
 
 if [[ -f "${VENV}/bin/activate" ]]; then
