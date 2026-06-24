@@ -2,10 +2,14 @@
 """Extract a simple markdown outline from a PowerPoint .pptx file.
 
 Usage:
-    python extract_outline.py input.pptx output.md
+    python extract_outline.py input.pptx [output.md]
 
 - One top-level heading per slide: "# Slide N: <title>"
 - Bullet lines for other text boxes on the slide.
+- If no output path is given, writes "<stem>.export.md" (e.g. talk_r3.pptx ->
+  talk_r3.export.md). The ".export.md" suffix marks the file as a machine-
+  generated export tied to its source .pptx, so it never collides with hand-
+  written working drafts that share the same stem.
 
 Requires: python-pptx
 """
@@ -54,7 +58,11 @@ def main(argv: list[str]) -> int:
         return 1
 
     in_path = Path(argv[1])
-    out_path = Path(argv[2]) if len(argv) == 3 else in_path.with_suffix(".md")
+    # Default output: "<stem>.export.md" (NOT "<stem>.md").
+    # The ".export.md" suffix marks the file as a machine-generated export tied to
+    # its source .pptx, keeping it distinct from hand-written working drafts and
+    # preventing accidental clobbering of drafts that share the stem.
+    out_path = Path(argv[2]) if len(argv) == 3 else in_path.with_suffix(".export.md")
 
     if not in_path.is_file():
         print(f"Input file not found: {in_path}", file=sys.stderr)
